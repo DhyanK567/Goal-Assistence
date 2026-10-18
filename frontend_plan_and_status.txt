@@ -1,0 +1,334 @@
+======================================================================
+GOAL WITH CONSISTENCY — FRONT-END IMPLEMENTATION PLAN & COMPLETED WORK AUDIT
+======================================================================
+Generated Date: 2026-10-18
+Format: Plain Text (.txt)
+Scope: Frontend Only (React + Vite + LocalStorage Adapter)
+
+======================================================================
+1. WORK COMPLETED AUDIT SUMMARY (STEP 0)
+======================================================================
+
+Active Workspace: c:\Users\dhyan\OneDrive\Documents\Goal-Assistence
+Adjacent Prototype Root: C:\Users\dhyan\goal-consistency
+Blueprint Reference: C:\Users\dhyan\Downloads\Goal_With_Consistency_Antigravity_Blueprint.txt
+
+AUDIT FINDINGS:
+- The current workspace (Goal-Assistence) was newly created and currently contains no files.
+- The existing folder (C:\Users\dhyan\goal-consistency) contains a clean Vite + React 19 starter boilerplate (main.jsx, App.jsx with default Vite counter, index.css, App.css).
+- No routing library (react-router-dom) is installed yet.
+- No application components, pages, custom hooks, or storage services have been implemented in the codebase yet.
+- Zero source code modifications have been made pending your approval.
+
+FEATURE COMPLETION STATUS MATRIX:
+----------------------------------------------------------------------------------------------------
+ID     Feature Name                          Status      Proving File / Notes
+----------------------------------------------------------------------------------------------------
+Group B: Core App
+FE-10  AppLayout (Sidebar, Navbar, Mobile)   MISSING     App.jsx is only default Vite counter template
+FE-11  Dashboard                             MISSING     No dashboard components or goal cards exist
+FE-12  Goals Management (CRUD)               MISSING     No goal service or goal UI exists
+FE-13  Daily Tasks Checklist (CRUD, Filter)  MISSING     No task list, checklist, or filter exists
+FE-14  WorkTimer (Timestamp-based)           MISSING     No timer hooks, controls, or storage logic
+
+Group C: Notes and Planning
+FE-20  Learning Notes (List, CRUD, Search)   MISSING     No LearningNotes UI or service exists
+FE-21  Sticky Notes (Color cards, CRUD)      MISSING     No StickyNotes UI or service exists
+FE-22  Future Events (Upcoming, CRUD)        MISSING     No event scheduler or event service exists
+
+Group D: Insight and Proof
+FE-30  Progress Analytics (Completion, Time) MISSING     No analytics calculations or views exist
+FE-31  Evidence (Task proof, size/type check)MISSING     No evidence modal or attachment handlers exist
+FE-32  Reflections (By date/goal)            MISSING     No reflection prompt or reflection store exists
+FE-33  Reports (Summary for chosen period)   MISSING     No report generator or export view exists
+
+Group A: Public / Auth Screens
+FE-01  Landing Page                          MISSING     No public landing screen exists
+FE-02  Register Page                         MISSING     No registration form or validation exists
+FE-03  Login Page                            MISSING     No login form or demo authService exists
+FE-04  Forgot Password                       SKIPPED     Skipped as instructed until explicitly approved
+FE-05  404 / NotFound Page                   MISSING     No catch-all route or 404 page exists
+FE-40  Settings / Profile Page               MISSING     No user profile or settings screen exists
+
+Shared Components
+FE-41  Shared UI (Button, Modal, FormField,  MISSING     No shared UI library folder exists
+       Toast, Loading, EmptyState, Banner)
+----------------------------------------------------------------------------------------------------
+
+======================================================================
+2. DATA & LOCALSTORAGE CONTRACTS (PRESERVED SPECIFICATION)
+======================================================================
+
+All data must be accessed strictly through the Storage Adapter Layer (never via direct localStorage calls from components).
+Keys and data shapes to be preserved:
+
+1. myGoal (string):
+   "Become a Senior Frontend Engineer"
+
+2. myDomain (string):
+   "Software Engineering"
+
+3. dailyTasks (Array of Objects):
+   [
+     {
+       "id": "task_1729230000000",
+       "title": "Complete Step 0 and Step 1",
+       "plannedTime": "09:00",
+       "goalType": "goal",          // "goal" | "independent"
+       "completed": false,
+       "createdAt": "2026-10-18T08:00:00.000Z"
+     }
+   ]
+
+4. taskSessions (Array of Objects):
+   [
+     {
+       "id": "sess_1729230000000",
+       "taskId": "task_1729230000000",
+       "startedAt": 1729230000000,   // epoch ms or null when paused
+       "endedAt": null,              // epoch ms or null while active
+       "accumulatedMs": 120000,      // total elapsed ms prior to current run
+       "status": "running"           // "running" | "paused" | "finished"
+     }
+   ]
+
+5. learningNotes (Array of Objects):
+   [
+     {
+       "id": "note_1729230000000",
+       "title": "Storage Adapter Pattern",
+       "content": "Decouple storage mechanism from business logic.",
+       "createdAt": "2026-10-18T08:30:00.000Z"
+     }
+   ]
+
+6. stickyNotes (Array of Objects):
+   [
+     {
+       "id": "sticky_1729230000000",
+       "text": "Review PR before merging",
+       "color": "#fef08a",           // yellow, green, blue, pink, purple
+       "createdAt": "2026-10-18T08:35:00.000Z"
+     }
+   ]
+
+7. futureEvents (Array of Objects - Planned):
+   [
+     {
+       "id": "event_1729230000000",
+       "title": "Project Demo",
+       "description": "Showcase working client-side prototype",
+       "dueAt": "2026-10-25T15:00:00.000Z",
+       "category": "Milestone",
+       "createdAt": "2026-10-18T08:40:00.000Z"
+     }
+   ]
+
+8. taskEvidence (Array of Objects - Planned):
+   [
+     {
+       "id": "evid_1729230000000",
+       "taskId": "task_1729230000000",
+       "kind": "COMPLETION_PHOTO",
+       "fileName": "proof_screenshot.png",
+       "fileReference": "local_preview_blob_or_meta",
+       "fileSize": 204800,
+       "fileType": "image/png",
+       "createdAt": "2026-10-18T09:00:00.000Z"
+     }
+   ]
+
+9. taskReflections (Array of Objects - Planned):
+   [
+     {
+       "id": "refl_1729230000000",
+       "taskId": "task_1729230000000",
+       "learningSummary": "Learned how to construct atomic state reducers.",
+       "createdAt": "2026-10-18T09:05:00.000Z"
+     }
+   ]
+
+======================================================================
+3. TARGET FOLDER STRUCTURE (PLANNED)
+======================================================================
+
+frontend/
+├─ public/
+│  ├─ favicon.svg
+│  └─ icons.svg
+├─ src/
+│  ├─ main.jsx
+│  ├─ App.jsx
+│  ├─ routes/
+│  │  ├─ index.jsx
+│  │  └─ ProtectedRoute.jsx
+│  ├─ layouts/
+│  │  ├─ AppLayout.jsx
+│  │  └─ PublicLayout.jsx
+│  ├─ pages/
+│  │  ├─ public/
+│  │  │  ├─ LandingPage.jsx
+│  │  │  ├─ LoginPage.jsx
+│  │  │  ├─ RegisterPage.jsx
+│  │  │  ├─ ForgotPage.jsx (only if approved)
+│  │  │  └─ NotFoundPage.jsx
+│  │  └─ app/
+│  │     ├─ DashboardPage.jsx
+│  │     ├─ GoalsPage.jsx
+│  │     ├─ TasksPage.jsx
+│  │     ├─ LearningNotesPage.jsx
+│  │     ├─ StickyNotesPage.jsx
+│  │     ├─ EventsPage.jsx
+│  │     ├─ AnalyticsPage.jsx
+│  │     ├─ EvidencePage.jsx
+│  │     ├─ ReflectionsPage.jsx
+│  │     ├─ ReportsPage.jsx
+│  │     └─ SettingsPage.jsx
+│  ├─ components/
+│  │  ├─ ui/
+│  │  │  ├─ Button.jsx
+│  │  │  ├─ Modal.jsx
+│  │  │  ├─ FormField.jsx
+│  │  │  ├─ Toast.jsx
+│  │  │  ├─ Loading.jsx
+│  │  │  ├─ EmptyState.jsx
+│  │  │  └─ ErrorBanner.jsx
+│  │  └─ features/
+│  │     ├─ WorkTimer.jsx
+│  │     ├─ TaskList.jsx
+│  │     ├─ TaskForm.jsx
+│  │     ├─ GoalCard.jsx
+│  │     ├─ NoteCard.jsx
+│  │     ├─ StickyCard.jsx
+│  │     ├─ EventCard.jsx
+│  │     └─ MetricCard.jsx
+│  ├─ hooks/
+│  │  ├─ useTasks.js
+│  │  ├─ useGoals.js
+│  │  ├─ useTimer.js
+│  │  ├─ useNotes.js
+│  │  └─ useEvents.js
+│  ├─ services/
+│  │  ├─ storage/
+│  │  │  ├─ storageInterface.js
+│  │  │  ├─ localStorageAdapter.js
+│  │  │  └─ apiAdapter.js (disabled stub)
+│  │  ├─ taskService.js
+│  │  ├─ goalService.js
+│  │  ├─ timerService.js
+│  │  ├─ noteService.js
+│  │  ├─ eventService.js
+│  │  ├─ authService.js
+│  │  └─ analyticsService.js
+│  ├─ context/
+│  │  ├─ AuthContext.jsx
+│  │  └─ ToastContext.jsx
+│  ├─ utils/
+│  │  ├─ date.js
+│  │  ├─ validation.js
+│  │  └─ formatting.js
+│  └─ styles/
+│     ├─ index.css
+│     ├─ variables.css
+│     └─ layout.css
+├─ .env.example
+├─ package.json
+└─ vite.config.js
+
+======================================================================
+4. STEP-BY-STEP IMPLEMENTATION CHECKPOINTS
+======================================================================
+
+CHECKPOINT 1: Shared Components + Storage Adapter + AppLayout + Routes
+----------------------------------------------------------------------
+1. Setup React Router:
+   - Install `react-router-dom` in package.json.
+   - Configure BrowserRouter in App.jsx.
+2. Build Storage Layer:
+   - storageInterface.js: standard async interface (get, set, remove, list).
+   - localStorageAdapter.js: guarded JSON parse/stringify with corrupt-data resilience.
+   - apiAdapter.js: disabled stub throwing descriptive "Backend not connected" errors.
+3. Build Shared UI (FE-41):
+   - Button (primary, secondary, danger, outline; loading state).
+   - Modal (accessible dialog with keyboard Esc listener & focus trap).
+   - FormField (accessible label, input, error message, helper text).
+   - Loading (spinner & skeleton placeholders).
+   - EmptyState (illustration/icon, title, message, action button).
+   - ErrorBanner (accessible alert for network or storage issues).
+   - Toast & ToastContext (floating toast notifications).
+4. Build Layout & Navigation (FE-10):
+   - AppLayout: responsive sidebar, top navbar, active route highlight, mobile slide-out menu.
+   - PublicLayout: header with branding, container for public routes.
+   - ProtectedRoute: controlled by VITE_AUTH_ENABLED (defaults to pass-through when false).
+5. Output review, testing checklist, and wait for approval.
+
+CHECKPOINT 2: Group B — Core App (FE-11 to FE-14)
+----------------------------------------------------------------------
+1. FE-12 Goals:
+   - Goal creation, title, domain selection, target date, active/archived status.
+   - goalService + useGoals hook.
+2. FE-13 Daily Tasks Checklist:
+   - Add task (title, planned time, goal-related vs independent).
+   - Complete/toggle checkbox, delete task, filter by date.
+   - taskService + useTasks hook.
+3. FE-14 WorkTimer:
+   - Timestamp-based timer: elapsed = accumulatedMs + (now - startedAt).
+   - Actions: Start, Pause, Resume, Finish.
+   - Guaranteed refresh safety: no lost elapsed time on browser reload.
+   - Enforce single global active session rule.
+   - timerService + useTimer hook.
+4. FE-11 Dashboard:
+   - Today's tasks overview, quick-start timer widget, goal progress summary card.
+5. Output review, manual testing checklist, and wait for approval.
+
+CHECKPOINT 3: Group C — Notes & Planning (FE-20 to FE-22)
+----------------------------------------------------------------------
+1. FE-20 Learning Notes:
+   - Create note with title and rich text content.
+   - Search/filter notes dynamically by query.
+   - Delete note with confirmation.
+   - noteService + useNotes hook.
+2. FE-21 Sticky Notes:
+   - Rapid-entry sticky note with color picker (yellow, green, blue, pink, purple).
+   - Responsive card grid.
+   - Quick delete action.
+3. FE-22 Future Events:
+   - Add upcoming event with title, date, time, category, and notes.
+   - Chronological sorting; overdue date badge.
+   - Edit and delete actions.
+4. Output review, manual testing checklist, and wait for approval.
+
+CHECKPOINT 4: Group D — Insight & Proof (FE-30 to FE-33)
+----------------------------------------------------------------------
+1. FE-30 Progress Analytics:
+   - Task completion rate: (completed / total) * 100.
+   - Total focus time: sum of all finished sessions + active session.
+   - Streak calculation: consecutive active days with >= 1 completed task or >= 15 min focus.
+2. FE-31 Evidence:
+   - Attach file proof to a task (local file metadata: name, size, type).
+   - Client-side size limit (e.g., max 5MB) and mime-type enforcement (image/pdf).
+3. FE-32 Reflections:
+   - Write structured reflection upon task completion or by goal.
+   - Reflection review view.
+4. FE-33 Reports:
+   - Daily and date-range summary report preview.
+   - Printable stylesheet formatting (@media print).
+5. Output review, manual testing checklist, and wait for approval.
+
+CHECKPOINT 5: Group A — Public & Auth Screens (FE-01, 02, 03, 05, 40)
+----------------------------------------------------------------------
+1. FE-01 Landing Page:
+   - Hero banner, feature highlights, call to action ("Get Started").
+2. FE-02 Register & FE-03 Login:
+   - Client-side validation (email format, password length, required fields).
+   - Form submission calls authService, returning clear "Backend not connected (Frontend Demo)" notification.
+   - No plaintext passwords or tokens stored in localStorage.
+3. FE-05 404 Page:
+   - Friendly not found page with navigation back to /app/dashboard.
+4. FE-40 Settings / Profile:
+   - Local profile preferences (theme, display name, storage reset / export button).
+5. Final QA, responsive checks (360px, 768px, desktop), and accessibility verification.
+
+======================================================================
+END OF PLAN FILE
+======================================================================

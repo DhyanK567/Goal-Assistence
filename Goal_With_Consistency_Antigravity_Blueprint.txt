@@ -1,0 +1,1050 @@
+GOAL WITH CONSISTENCY
+COMPLETE PROJECT BLUEPRINT FOR ANTIGRAVITY
+Format: Plain text (.txt)
+Purpose: Single source of truth for planning and implementing the project incrementally without breaking existing working code.
+
+======================================================================
+1. PROJECT OVERVIEW
+======================================================================
+
+Project Name: Goal With Consistency (GWC)
+Project Folder: goal-consistency
+Project Type: Personal productivity, daily task planning, learning journal, habit consistency, and progress reporting web application.
+Current Frontend Stack: React + Vite + JavaScript + CSS
+Current Run Command (Windows PowerShell): npm.cmd run dev
+Typical Local URL: http://localhost:5173/ (use the URL actually printed by Vite)
+Current Persistence: Browser localStorage
+Backend/Database: Not confirmed as implemented. Treat as future work unless verified in the repository.
+
+PRODUCT VISION
+Help a user turn a long-term goal into small daily tasks, track focused work time, save learning and reminder notes, record evidence/reflections, maintain consistency over time, and generate useful progress reports.
+
+CORE PRODUCT PRINCIPLES
+1. Preserve all existing working features and existing visual theme.
+2. Implement one feature at a time in small, testable steps.
+3. Reuse current state, components, CSS conventions, and localStorage keys wherever possible.
+4. Do not delete, rewrite, rename, or move existing project files unless required and approved.
+5. Do not claim that authentication, cloud sync, file uploads, or backend persistence works until it is actually implemented and tested.
+6. Keep data handling clear: localStorage data is stored in the current browser on the current device and is not automatically synced across devices.
+7. Make the interface responsive, keyboard-accessible, and clear on desktop and mobile.
+8. Show helpful validation and empty states; never silently discard the user's entered data.
+
+======================================================================
+2. FEATURE STATUS: CURRENTLY KNOWN VS PLANNED
+======================================================================
+
+KNOWN EXISTING / RECENTLY BUILT
+- Goal title and domain selection, saved in localStorage.
+- Add daily tasks with task title, optional planned time, and relation to a long-term goal or an independent task.
+- Mark tasks complete/incomplete with a checkbox.
+- Start, pause, resume, and finish timed work sessions.
+- Prevent starting a second running session while another session is running.
+- Save task and session data in localStorage.
+- Show daily completion percentage and recorded work duration.
+- Show task session history.
+- Learning Notes component: add note, search notes, delete note, and persist notes in localStorage.
+- Sticky Notes component: add reminder, choose a color, delete reminder, and persist reminders in localStorage.
+- A Login/Register UI component was created, but its actual integration into App.jsx and real account authentication must be verified.
+
+VERIFY BEFORE CHANGING
+- Confirm the actual current folder and files first. Expected project root is goal-consistency and expected source files are inside one top-level src folder.
+- Confirm that App.jsx imports and renders Auth only if the login screen is intended to be active.
+- Check that LearningNotes.jsx and StickyNotes.jsx are directly inside src, not src/src.
+- Check existing index.css before adding duplicate selectors.
+- Inspect package.json and current dependencies before proposing new dependencies.
+
+PLANNED / NOT TO BE ASSUMED COMPLETE
+- Future Events and Deadlines.
+- Evidence upload: start photo and completion photo, subject to browser file permissions and appropriate storage design.
+- End-of-task learning reflection.
+- Automatic task completion rules.
+- Daily history / calendar view.
+- Enhanced analytics and streaks.
+- Final downloadable progress report.
+- Real secure registration/login, sessions, backend API, and database persistence.
+- Cross-device sync and cloud backup.
+
+IMPORTANT TASK-COMPLETION RULE
+The existing app currently allows a user to tick a task checkbox manually. If the product is changed to automatic completion, implement one explicit, understandable rule. Recommended rule: a task is marked complete only when the user presses "Complete Task" after finishing the work session and the required reflection/evidence steps configured for that task. Do not mark tasks complete merely because a timer ran for a duration. Provide a setting or clearly documented rule if evidence is optional.
+
+======================================================================
+3. TARGET USER JOURNEY / MAIN WORKFLOW
+======================================================================
+
+FIRST VISIT
+1. User opens the app.
+2. If authentication is enabled, the login/register screen appears.
+3. In the current frontend-only prototype, authentication must be labeled as DEMO until it is connected to a secure backend. Never store a plaintext password in localStorage.
+4. User reaches the dashboard.
+5. User enters a long-term goal, for example "Become an AI Engineer", and chooses a domain.
+6. Goal is saved and displayed on the dashboard.
+
+DAILY PLANNING WORKFLOW
+1. User creates tasks for today.
+2. For each task, user can enter a title, optional planned start time, and choose goal-related or independent.
+3. Task is added to Today's Tasks.
+4. User can start a work session for a task.
+5. User can pause, resume, or finish that session.
+6. Prevent two sessions from running simultaneously.
+7. Display elapsed time accurately and preserve it after refresh.
+8. At completion, user can add a reflection and optional/required evidence according to task settings.
+9. Mark task complete according to the configured completion rule.
+10. Update dashboard progress and history.
+
+LEARNING NOTES WORKFLOW
+1. User enters a title and learning content.
+2. User saves the note.
+3. Note appears in the list and persists after refresh.
+4. Search filters notes by title and content.
+5. Delete removes the selected note only.
+
+STICKY NOTES WORKFLOW
+1. User types a reminder and chooses a color.
+2. User saves the reminder.
+3. A colored card appears.
+4. User can add more reminders or delete one.
+5. Reminders persist after refresh.
+
+FUTURE EVENTS WORKFLOW (PLANNED)
+1. User creates an event with title, date, optional time, category, and notes.
+2. Validate date/time inputs.
+3. Show upcoming events in chronological order.
+4. Offer edit and delete actions.
+5. Flag overdue events visually, but do not rely on notifications unless notification permission is deliberately implemented.
+
+END-OF-DAY WORKFLOW (PLANNED)
+1. Calculate tasks completed, tasks remaining, and completion percentage for the selected date.
+2. Calculate focused time from session records without double-counting paused time.
+3. Summarize reflections and evidence status.
+4. Save a daily summary or derive it from records using stable dates.
+5. Allow the user to review history by date.
+6. Generate a printable or downloadable report only after the report data is verified.
+
+======================================================================
+4. INFORMATION ARCHITECTURE / MAIN SCREENS
+======================================================================
+
+A. AUTHENTICATION SCREEN (DEMO UNTIL BACKEND EXISTS)
+- Login tab.
+- Create account tab.
+- Email and password fields; name and confirm-password on registration.
+- Client-side validation and clear errors.
+- Do not claim credentials are verified if no backend authentication exists.
+- Do not store plaintext passwords locally.
+
+B. DASHBOARD
+- Greeting and goal summary.
+- Goal/domain editor.
+- Today's progress card.
+- Daily tasks list and task timer controls.
+- Total recorded focus time.
+- Upcoming events summary (planned).
+- Quick links to Learning Notes, Sticky Notes, History, Analytics, and Reports.
+
+C. DAILY TASKS
+- Add task.
+- Planned time.
+- Goal-related/independent selection.
+- Start, Pause, Resume, Finish Session.
+- Session history.
+- Reflection/evidence flow (planned).
+- Complete/reopen/delete actions with safe confirmation where appropriate.
+
+D. LEARNING NOTES
+- Create, list, search, delete notes.
+- Optional future: edit note, tags, pin/favorite.
+
+E. STICKY NOTES
+- Add reminder.
+- Choose note color.
+- View cards.
+- Delete reminder.
+- Optional future: edit, pin, archive.
+
+F. FUTURE EVENTS
+- Add/edit/delete event.
+- Upcoming list/calendar-style grouping.
+
+G. HISTORY
+- Select a date.
+- View tasks, completion, sessions, time, notes/reflections, and evidence status.
+
+H. ANALYTICS
+- Date-range summary.
+- Total tasks and completion rate.
+- Focus time per day and per task/domain.
+- Active-day streak based on an explicitly defined rule.
+- Charts should reflect actual saved records and handle empty data.
+
+I. REPORT
+- Date range or single-day selection.
+- Summary cards, task completion, focus time, reflection summary.
+- Print/download only when implemented and tested.
+
+======================================================================
+5. HIGH-LEVEL SYSTEM ARCHITECTURE
+======================================================================
+
+CURRENT PROTOTYPE ARCHITECTURE
+
+[User]
+   |
+   v
+[React UI: App.jsx / child components]
+   |
+   v
+[React State + validation + timer calculations]
+   |
+   v
+[Storage helpers]
+   |
+   v
+[Browser localStorage]
+
+Current localStorage keys known from the current code:
+- myGoal       : string
+- myDomain     : string
+- dailyTasks   : JSON array
+- taskSessions : JSON array
+- learningNotes: JSON array (Learning Notes component)
+- stickyNotes  : JSON array (Sticky Notes component)
+
+Do not change these keys without a migration or compatibility plan.
+
+TARGET FULL-STACK ARCHITECTURE (FUTURE, NOT CLAIMED AS CURRENTLY BUILT)
+
+[Browser / React + Vite]
+   | HTTPS REST requests
+   v
+[Backend API: Node.js + Express or another explicitly chosen server]
+   |-- Authentication and authorization middleware
+   |-- Goal and task service
+   |-- Timer/session service
+   |-- Notes and reminders service
+   |-- Events service
+   |-- Evidence metadata/file service
+   |-- Analytics/report service
+   v
+[Database: PostgreSQL recommended if user elects a relational backend]
+   |
+   +--> [File/object storage for images, if configured]
+
+Cross-cutting requirements:
+- Validate inputs on client and server.
+- Authenticate and authorize every user-specific API route.
+- Hash passwords using a current secure password-hashing library on the server; never store raw passwords.
+- Keep secrets in environment variables; never commit .env files.
+- Use ownership checks so one user cannot read or modify another user's data.
+- Store image files outside database rows when using object/file storage; store metadata and file references in the database.
+- If no backend exists, retain and accurately label the app as a local prototype.
+
+======================================================================
+6. TEXT ARCHITECTURE / COMPONENT TREE
+======================================================================
+
+Expected current project shape (verify actual repository before edits):
+
+goal-consistency/
+|-- index.html
+|-- package.json
+|-- vite.config.js                  (if present)
+|-- public/                         (if present)
+|-- src/
+|   |-- main.jsx
+|   |-- App.jsx
+|   |-- index.css
+|   |-- Auth.jsx                    (if currently present)
+|   |-- LearningNotes.jsx
+|   |-- StickyNotes.jsx
+|   |-- components/                 (optional future organization)
+|   |   |-- GoalCard.jsx
+|   |   |-- TaskForm.jsx
+|   |   |-- TaskList.jsx
+|   |   |-- TimerControls.jsx
+|   |   |-- ProgressSummary.jsx
+|   |   |-- FutureEvents.jsx
+|   |   |-- DailyHistory.jsx
+|   |   |-- ProgressAnalytics.jsx
+|   |   |-- EvidenceReflection.jsx
+|   |   |-- ReportView.jsx
+|   |-- services/                   (future, only if needed)
+|   |   |-- storageService.js
+|   |   |-- timerService.js
+|   |   |-- reportService.js
+|   |-- utils/                      (future, only if needed)
+|   |   |-- dateUtils.js
+|   |   |-- durationUtils.js
+|   |-- test/                       (optional future)
+|
+IMPORTANT: This is a target/reference structure, not an instruction to create every file immediately. Keep the current flat structure if it is working. Do not create another nested src folder. Move files only when the import paths and app are updated and tested in the same change.
+
+RECOMMENDED COMPONENT RESPONSIBILITIES
+- main.jsx: mount React and import global CSS. Keep this file small.
+- App.jsx: app-level layout, top-level state/navigation, and composition of sections. Avoid placing all future feature logic in this file.
+- Auth.jsx: login/register presentation and client-side validation only until backend auth is connected.
+- LearningNotes.jsx: learning note create/search/delete UI and storage integration.
+- StickyNotes.jsx: reminder create/color/delete UI and storage integration.
+- FutureEvents.jsx: event form and upcoming event list.
+- DailyHistory.jsx: view historical records by date.
+- ProgressAnalytics.jsx: derive analytics from actual task/session history.
+- EvidenceReflection.jsx: task completion photo selection and written reflection UI.
+- ReportView.jsx: review/print/export report.
+
+======================================================================
+7. DATA MODEL / CLASS DIAGRAM (UML-STYLE TEXT)
+======================================================================
+
+Legend:
+1 = one, 0..1 = optional one, 0..* = zero or many, * = many
+The model below represents the target domain. In the current local prototype, user identity may not be stored and some entities are not implemented yet.
+
++---------------------------+
+| User                      |
++---------------------------+
+| id: string                |
+| name: string              |
+| email: string             |
+| createdAt: datetime       |
++---------------------------+
+| register()                |
+| login()                   |
+| updateProfile()           |
++---------------------------+
+
++---------------------------+
+| Goal                      |
++---------------------------+
+| id: string                |
+| userId: string            |
+| title: string             |
+| domain: string            |
+| createdAt: datetime       |
+| updatedAt: datetime       |
+| archived: boolean         |
++---------------------------+
+| create()                  |
+| update()                  |
+| archive()                 |
++---------------------------+
+
++---------------------------+
+| Task                      |
++---------------------------+
+| id: string                |
+| userId: string            |
+| goalId: string?           |
+| title: string             |
+| plannedTime: time?        |
+| taskDate: date            |
+| goalType: enum            |
+| status: enum              |
+| createdAt: datetime       |
+| completedAt: datetime?    |
++---------------------------+
+| add()                     |
+| update()                  |
+| complete()                |
+| reopen()                  |
+| delete()                  |
++---------------------------+
+
++---------------------------+
+| WorkSession               |
++---------------------------+
+| id: string                |
+| taskId: string            |
+| startedAt: datetime?      |
+| endedAt: datetime?        |
+| accumulatedMs: integer    |
+| status: enum              |
++---------------------------+
+| start()                   |
+| pause()                   |
+| resume()                  |
+| finish()                  |
+| durationMs()              |
++---------------------------+
+
++---------------------------+
+| LearningNote              |
++---------------------------+
+| id: string                |
+| userId: string?           |
+| title: string             |
+| content: text             |
+| createdAt: datetime       |
+| updatedAt: datetime?      |
++---------------------------+
+| create()                  |
+| search()                  |
+| edit()                    |
+| delete()                  |
++---------------------------+
+
++---------------------------+
+| StickyNote                |
++---------------------------+
+| id: string                |
+| userId: string?           |
+| text: text                |
+| color: string             |
+| createdAt: datetime       |
++---------------------------+
+| create()                  |
+| update()                  |
+| delete()                  |
++---------------------------+
+
++---------------------------+
+| FutureEvent               |
++---------------------------+
+| id: string                |
+| userId: string            |
+| title: string             |
+| description: text?        |
+| dueAt: datetime           |
+| category: string?         |
+| createdAt: datetime       |
++---------------------------+
+| create()                  |
+| update()                  |
+| delete()                  |
+| isOverdue()               |
++---------------------------+
+
++---------------------------+
+| TaskEvidence              |
++---------------------------+
+| id: string                |
+| taskId: string            |
+| kind: enum                |
+| fileName: string          |
+| fileReference: string     |
+| createdAt: datetime       |
++---------------------------+
+| attach()                  |
+| remove()                  |
++---------------------------+
+
++---------------------------+
+| TaskReflection            |
++---------------------------+
+| id: string                |
+| taskId: string            |
+| learningSummary: text     |
+| createdAt: datetime       |
+| updatedAt: datetime?      |
++---------------------------+
+| save()                    |
+| update()                  |
++---------------------------+
+
+RELATIONSHIPS
+User 1 -------- 0..* Goal
+User 1 -------- 0..* Task
+Goal 1 -------- 0..* Task             (task.goalId optional for independent tasks)
+Task 1 -------- 0..* WorkSession
+User 1 -------- 0..* LearningNote     (userId optional in local prototype)
+User 1 -------- 0..* StickyNote       (userId optional in local prototype)
+User 1 -------- 0..* FutureEvent
+Task 1 -------- 0..* TaskEvidence
+Task 1 -------- 0..1 TaskReflection   (can be revised to 0..* if reflection history is needed)
+
+ENUM SUGGESTIONS
+Task.goalType: GOAL_RELATED | INDEPENDENT
+Task.status: TODO | IN_PROGRESS | COMPLETED | CANCELLED
+WorkSession.status: RUNNING | PAUSED | FINISHED
+TaskEvidence.kind: START_PHOTO | COMPLETION_PHOTO | OTHER
+
+CLASS DIAGRAM NOTES
+- Keep identifiers stable; do not use array indexes as entity IDs.
+- Use a consistent task date format such as YYYY-MM-DD.
+- For elapsed time, store numeric milliseconds, not a formatted HH:MM:SS string.
+- For dates, use ISO timestamps internally and locale formatting only when displaying them.
+- Do not calculate historic session time from Date.now() alone; use saved endedAt/accumulatedMs data.
+
+======================================================================
+8. TIMER / TASK STATE MACHINE
+======================================================================
+
+TASK STATES
+TODO --> IN_PROGRESS --> COMPLETED
+  |            |             |
+  |            +--> TODO     +--> TODO (reopen action if supported)
+  +--> CANCELLED (optional future state)
+
+WORK SESSION STATES
+[No session] --Start--> [RUNNING]
+[RUNNING] --Pause--> [PAUSED]
+[PAUSED] --Resume--> [RUNNING]
+[RUNNING] --Finish--> [FINISHED]
+[PAUSED] --Finish--> [FINISHED]
+
+TIMER RULES
+1. At most one WorkSession may be RUNNING globally unless the product deliberately changes that rule.
+2. Start stores startedAt = current epoch milliseconds and accumulatedMs = 0 for a new session.
+3. Pause adds (now - startedAt) to accumulatedMs, clears startedAt, and sets status PAUSED.
+4. Resume sets startedAt = now and status RUNNING; accumulatedMs is retained.
+5. Finish adds the final active interval only if status was RUNNING, records endedAt = now, clears startedAt, and sets FINISHED.
+6. A paused session's displayed duration is accumulatedMs.
+7. A running session's displayed duration is accumulatedMs + (now - startedAt).
+8. A finished session's duration must remain fixed after future refreshes.
+9. Do not count the same time interval twice.
+10. The running display should refresh approximately once per second, but the source of truth should remain timestamps rather than incrementing a counter that drifts.
+11. When the app reloads and a RUNNING session exists, define a recovery policy. Recommended: resume from stored startedAt, show a visible active timer, and permit pause/finish. Never silently reset the session.
+12. Completing a task with an active session should be blocked or should finish the session through an explicit user-confirmed flow.
+
+======================================================================
+9. DATA / STORAGE DESIGN
+======================================================================
+
+CURRENT LOCALSTORAGE RECORD SHAPES (BASED ON KNOWN CODE)
+
+myGoal:
+  string
+
+myDomain:
+  string
+
+dailyTasks:
+  [
+    {
+      id: string,
+      title: string,
+      plannedTime: string,
+      goalType: "goal" | "independent",
+      completed: boolean,
+      createdAt: ISO datetime
+    }
+  ]
+
+taskSessions:
+  [
+    {
+      id: string,
+      taskId: string,
+      startedAt: number | null,
+      endedAt: number | null,
+      accumulatedMs: number,
+      status: "running" | "paused" | "finished"
+    }
+  ]
+
+learningNotes:
+  [
+    {
+      id: string,
+      title: string,
+      content: string,
+      createdAt: string
+    }
+  ]
+
+stickyNotes:
+  [
+    {
+      id: string,
+      text: string,
+      color: string,
+      createdAt: string
+    }
+  ]
+
+STORAGE SAFETY
+- Every JSON parse must be guarded with try/catch and shape validation.
+- Handle localStorage being unavailable or full without crashing the whole app.
+- Store only information intended for this browser profile.
+- Never store passwords, session tokens, or secrets in plain localStorage as a substitute for secure authentication.
+- For images, do not casually place large base64 images into localStorage; browser quota is limited. Use a considered local file approach for a prototype or a backend/object-storage solution for production.
+- When changing a schema, support existing saved data and do not wipe old data on first render.
+- Add a versioned migration strategy if the app's saved structures change substantially.
+
+TARGET DATABASE TABLES (ONLY WHEN BACKEND IS APPROVED)
+users
+- id (primary key)
+- name
+- email (unique)
+- password_hash
+- created_at
+
+ goals
+- id (primary key)
+- user_id (foreign key -> users.id)
+- title
+- domain
+- archived
+- created_at
+- updated_at
+
+tasks
+- id (primary key)
+- user_id (foreign key -> users.id)
+- goal_id (nullable foreign key -> goals.id)
+- title
+- planned_time (nullable)
+- task_date
+- goal_type
+- status
+- created_at
+- completed_at (nullable)
+
+work_sessions
+- id (primary key)
+- task_id (foreign key -> tasks.id)
+- started_at (nullable)
+- ended_at (nullable)
+- accumulated_ms
+- status
+
+learning_notes
+- id (primary key)
+- user_id (foreign key -> users.id)
+- title
+- content
+- created_at
+- updated_at
+
+sticky_notes
+- id (primary key)
+- user_id (foreign key -> users.id)
+- text
+- color
+- created_at
+- updated_at
+
+events
+- id (primary key)
+- user_id (foreign key -> users.id)
+- title
+- description (nullable)
+- due_at
+- category (nullable)
+- created_at
+- updated_at
+
+task_evidence
+- id (primary key)
+- task_id (foreign key -> tasks.id)
+- kind
+- file_name
+- file_reference
+- created_at
+
+task_reflections
+- id (primary key)
+- task_id (foreign key -> tasks.id, unique if only one current reflection per task)
+- learning_summary
+- created_at
+- updated_at
+
+Use database transactions for related operations where needed. Enforce user-level authorization for every private record.
+
+======================================================================
+10. TARGET API DESIGN (FUTURE BACKEND ONLY)
+======================================================================
+
+Base path example: /api/v1
+These are proposed endpoint names, not existing APIs.
+
+AUTH
+POST   /auth/register
+POST   /auth/login
+POST   /auth/logout
+GET    /auth/me
+
+GOALS
+GET    /goals
+POST   /goals
+GET    /goals/:goalId
+PATCH  /goals/:goalId
+DELETE /goals/:goalId or archive endpoint
+
+TASKS
+GET    /tasks?date=YYYY-MM-DD
+POST   /tasks
+GET    /tasks/:taskId
+PATCH  /tasks/:taskId
+DELETE /tasks/:taskId
+POST   /tasks/:taskId/complete
+POST   /tasks/:taskId/reopen
+
+SESSIONS
+GET    /tasks/:taskId/sessions
+POST   /tasks/:taskId/sessions
+POST   /sessions/:sessionId/pause
+POST   /sessions/:sessionId/resume
+POST   /sessions/:sessionId/finish
+
+LEARNING NOTES
+GET    /learning-notes?search=...
+POST   /learning-notes
+PATCH  /learning-notes/:noteId
+DELETE /learning-notes/:noteId
+
+STICKY NOTES
+GET    /sticky-notes
+POST   /sticky-notes
+PATCH  /sticky-notes/:noteId
+DELETE /sticky-notes/:noteId
+
+EVENTS
+GET    /events?from=...&to=...
+POST   /events
+PATCH  /events/:eventId
+DELETE /events/:eventId
+
+EVIDENCE / REFLECTIONS
+POST   /tasks/:taskId/evidence (multipart upload or signed upload design)
+DELETE /evidence/:evidenceId
+GET    /tasks/:taskId/reflection
+PUT    /tasks/:taskId/reflection
+
+ANALYTICS / REPORTS
+GET    /analytics/summary?from=...&to=...
+GET    /reports/daily?date=YYYY-MM-DD
+GET    /reports/export?from=...&to=... (format must be defined and tested)
+
+API REQUIREMENTS
+- Return consistent JSON and HTTP status codes.
+- Validate ID formats, request bodies, and date ranges.
+- Ensure every record is owned by the authenticated user.
+- Avoid exposing server stack traces or secret details in errors.
+- Use pagination if record lists become large.
+- Define upload file types, max size, authorization, and storage retention before enabling photo uploads.
+
+======================================================================
+11. ARCHITECTURE FLOWS
+======================================================================
+
+FLOW A: CREATE AND SAVE A TASK
+[User enters task title/time/type]
+        |
+        v
+[Task form validation]
+        |
+        +-- invalid --> [Show field error; keep user input]
+        |
+        v
+[Create stable task ID + task date + default status]
+        |
+        v
+[Update React state]
+        |
+        v
+[Persist to localStorage in current prototype]
+        |
+        v
+[Render task in today's list]
+        |
+        v
+[Update count/progress]
+
+FLOW B: WORK TIMER
+[Select task] --> [Check if a RUNNING session exists]
+                            |
+                  +---------+---------+
+                  |                   |
+             Session exists       No session
+                  |                   |
+                  v                   v
+        [Explain conflict]      [Create RUNNING session]
+                                      |
+                                      v
+                               [Display elapsed time]
+                                      |
+                             [Pause / Resume / Finish]
+                                      |
+                                      v
+                               [Persist duration]
+                                      |
+                                      v
+                               [Update task history]
+
+FLOW C: COMPLETE TASK WITH REFLECTION (PLANNED)
+[User selects Complete Task]
+        |
+        v
+[Check active sessions]
+        |
+        +-- active --> [Ask user to pause/finish session]
+        |
+        v
+[Open reflection/evidence form]
+        |
+        v
+[Validate required reflection/evidence settings]
+        |
+        +-- invalid --> [Show missing item; do not complete]
+        |
+        v
+[Save reflection and evidence references]
+        |
+        v
+[Mark task COMPLETED + completedAt]
+        |
+        v
+[Refresh dashboard, daily history, and analytics]
+
+FLOW D: LEARNING NOTE
+[Enter title + content] --> [Validate non-empty] --> [Create note]
+        --> [Save state] --> [Persist to localStorage] --> [Display note]
+Search: [Enter query] --> [Filter by title + content] --> [Display matches]
+Delete: [Choose delete] --> [Remove selected ID] --> [Persist updated list]
+
+FLOW E: STICKY NOTE
+[Enter reminder + select color] --> [Validate reminder] --> [Create note ID]
+        --> [Save state] --> [Persist to localStorage] --> [Render colored card]
+Delete: [Choose delete] --> [Remove selected ID] --> [Persist updated list]
+
+FLOW F: FUTURE EVENT (PLANNED)
+[Enter title/date/time] --> [Validate] --> [Save event]
+        --> [Sort chronologically] --> [Upcoming events list]
+        --> [Edit / Delete / overdue indication]
+
+FLOW G: REPORT GENERATION (PLANNED)
+[Choose date range] --> [Validate range] --> [Read tasks + sessions + reflections]
+        --> [Normalize to selected local dates] --> [Aggregate metrics]
+        --> [Render report preview] --> [Print or download] --> [Verify totals]
+
+FLOW H: FULL-STACK REQUEST (FUTURE)
+[React component] --> [API request over HTTPS] --> [Auth middleware]
+        --> [Validate request + ownership] --> [Service/business rules]
+        --> [Database / file storage] --> [JSON response]
+        --> [React state update] --> [Loading/success/error state]
+
+======================================================================
+12. ANALYTICS AND REPORT CALCULATION RULES
+======================================================================
+
+TASK METRICS
+- Total tasks = number of tasks within the selected date range.
+- Completed tasks = tasks whose status is COMPLETED or completed flag is true under the current data model.
+- Completion rate = completed tasks / total tasks * 100. If there are zero tasks, show 0% or a neutral no-data state; never divide by zero.
+- Pending tasks = total tasks - completed tasks, excluding cancelled tasks if a cancellation status is introduced.
+
+FOCUS TIME
+- Sum each WorkSession's effective duration once.
+- RUNNING session duration at present = accumulatedMs + (now - startedAt), only when startedAt is valid.
+- PAUSED or FINISHED session duration = accumulatedMs.
+- Historical reports should use each session's recorded start/end intervals and a documented rule for sessions that cross midnight. For reliable per-day analytics, store enough interval information to split a session across dates when required.
+
+STREAK
+- Define what counts as an active day before showing a streak. Example: at least one completed task or a minimum recorded focus duration.
+- Never invent a streak when dates or historical records are missing.
+
+REPORT
+- Display selected date/range, total tasks, completed, pending, completion percentage, focus time, and reflection/evidence status.
+- Clearly distinguish saved facts from calculated estimates.
+- Provide empty states for periods with no activity.
+- Test report totals against hand-calculated sample data.
+
+======================================================================
+13. SECURITY, PRIVACY, ACCESSIBILITY, AND RELIABILITY
+======================================================================
+
+SECURITY
+- Frontend-only validation is not authentication.
+- Do not store plain passwords or secrets in localStorage.
+- Backend auth, if built, must hash passwords securely, verify credentials server-side, and implement appropriate session/token handling.
+- Protect all user-specific data with server-side ownership checks.
+- Restrict photo upload file types and file sizes; treat filenames as untrusted input.
+- Never commit secret API keys or production credentials.
+
+PRIVACY
+- Explain that local prototype data remains in the browser and is not cloud-synced.
+- If evidence photos are added, communicate where they are stored and how a user can remove them.
+- Ask only for permissions actually needed by the feature.
+
+ACCESSIBILITY
+- Every input must have a label.
+- All actions must be keyboard reachable and have clear focus styles.
+- Use descriptive button names and accessible status/error messages.
+- Do not rely on color alone to communicate task status.
+- Respect reduced-motion preferences when adding animation.
+
+RELIABILITY
+- Preserve typed values after validation errors.
+- Add loading, empty, success, and error states as appropriate.
+- Prevent duplicate submissions where applicable.
+- Check malformed localStorage values safely.
+- Avoid setInterval leaks; always clean up timers in useEffect.
+- Check edge cases: zero tasks, stale task IDs in sessions, malformed notes, reload during active session, timezone/date boundaries.
+
+======================================================================
+14. IMPLEMENTATION ROADMAP FOR ANTIGRAVITY
+======================================================================
+
+PHASE 0 — REPOSITORY AUDIT AND SAFE BASELINE
+1. Inspect package.json, src/App.jsx, src/main.jsx, src/index.css, Auth.jsx, LearningNotes.jsx, StickyNotes.jsx, and all existing files.
+2. List the actual folder tree and confirm all component imports resolve.
+3. Run the existing app before editing.
+4. Record current working behavior and current errors.
+5. Do not make feature changes before confirming the baseline.
+Acceptance criteria: app starts and current goal/task/timer/notes features work as before.
+
+PHASE 1 — STABILIZE CURRENT FEATURES
+1. Fix only actual import errors or runtime issues.
+2. Verify the task timer states and reload behavior.
+3. Verify Learning Notes create/search/delete/persistence.
+4. Verify Sticky Notes create/color/delete/persistence.
+5. Check CSS for duplicate or conflicting selectors.
+6. Ensure main.jsx mounts App and imports index.css; app-level auth/navigation belongs in App.jsx or a router, not by replacing the main mount unnecessarily.
+Acceptance criteria: no console errors; existing features remain usable.
+
+PHASE 2 — COMPONENT ORGANIZATION (OPTIONAL)
+1. Break App.jsx into components only where it reduces complexity.
+2. Keep a working build after every extraction.
+3. Do not move all files at once.
+4. Update imports and verify paths immediately.
+Acceptance criteria: same appearance and behavior after refactoring.
+
+PHASE 3 — FUTURE EVENTS AND DEADLINES
+1. Add event data model and localStorage key futureEvents.
+2. Build event form, list sorted by date, edit/delete controls.
+3. Add form validation and empty states.
+4. Confirm data survives refresh.
+Acceptance criteria: CRUD works and dates sort correctly.
+
+PHASE 4 — TASK REFLECTION
+1. Add reflection input connected to task ID.
+2. Save and edit reflection.
+3. Display reflection in task details and history.
+4. Implement completion rule explicitly; preserve existing behavior unless approved.
+Acceptance criteria: correct reflection remains attached to the correct task.
+
+PHASE 5 — EVIDENCE PHOTOS
+1. Decide whether prototype uses temporary/local object URLs or backend file storage.
+2. If using browser previews, note that object URLs do not persist across reloads unless the image is stored elsewhere.
+3. Do not use huge base64 strings in localStorage without assessing quota and privacy.
+4. Add start/end evidence metadata to a task.
+5. Validate file type and size and allow removal.
+Acceptance criteria: selected image previews correctly, invalid files are rejected, and persistence behavior is clearly explained.
+
+PHASE 6 — DAILY HISTORY
+1. Define taskDate and stable date handling.
+2. Group tasks and sessions by local date under an explicit timezone rule.
+3. Allow date navigation.
+4. Show completion, sessions, focus time, reflections, and evidence status.
+Acceptance criteria: historical data is not mixed into the wrong day.
+
+PHASE 7 — ANALYTICS
+1. Build pure helper functions for totals and percentages.
+2. Add selected date range.
+3. Add daily focus and task completion views.
+4. Add streak only after the streak rule is defined.
+5. Handle empty datasets and invalid ranges.
+Acceptance criteria: totals match test fixtures and manual calculations.
+
+PHASE 8 — REPORT EXPORT
+1. Build a report preview from the same tested analytics calculations.
+2. Add print stylesheet.
+3. Add PDF/CSV download only using a selected implementation and after verifying output.
+4. Make sure exported reports match the on-screen totals.
+Acceptance criteria: export works and includes correct selected date range.
+
+PHASE 9 — AUTHENTICATION AND BACKEND (ONLY IF REQUIRED)
+1. Decide backend stack; do not assume one exists.
+2. Design secure authentication and user-specific ownership model.
+3. Design database migrations and API contracts.
+4. Build and test endpoints before connecting all UI components.
+5. Migrate data carefully; offer a local data export/import strategy if old data needs to be preserved.
+Acceptance criteria: registration/login are verified server-side, data is private per user, and secrets are not exposed.
+
+PHASE 10 — FINAL QA
+1. Test clean first launch.
+2. Test refresh and browser restart.
+3. Test malformed storage.
+4. Test all create/edit/delete forms.
+5. Test timer start/pause/resume/finish and reload.
+6. Test small mobile viewport.
+7. Test keyboard-only navigation and visible focus.
+8. Verify every sidebar navigation item actually navigates or is clearly disabled/not yet implemented.
+9. Check browser console and terminal for errors.
+10. Produce a summary of files changed, features completed, tests run, known gaps, and how to start the app.
+
+======================================================================
+15. ANTIGRAVITY MASTER INSTRUCTION PROMPT
+======================================================================
+
+Copy the following prompt into Antigravity along with this blueprint:
+
+"You are working on my existing Goal With Consistency React + Vite project. Treat Goal_With_Consistency_Antigravity_Blueprint.txt as the project requirements and reference design.
+
+FIRST: Inspect the repository, package.json, current folder structure, App.jsx, main.jsx, index.css, Auth.jsx if present, LearningNotes.jsx, StickyNotes.jsx, and all imported components. Report the actual current tree and identify missing files, duplicate nested src folders, broken imports, and current errors. Do not edit files until you have reported your audit and the safest next change.
+
+NON-NEGOTIABLE RULES:
+1. Preserve working existing code and the existing visual theme. Do not rewrite the whole app just to add a feature.
+2. Make one small, testable change at a time.
+3. Never create a nested src/src folder. All top-level source components must be in the actual source folder unless we deliberately adopt another structure.
+4. Do not delete, rename, move, or overwrite existing files unless the change is necessary and explained.
+5. Before editing a file, inspect its full relevant content. Do not assume the repository matches an old snippet.
+6. After each change, run the available build/lint/test command from package.json, if one exists, and report its result honestly. If no test command exists, run the available development/build validation and state the limitation.
+7. Do not fake working authentication. Login/register UI is only a demo until securely connected to a backend. Never save plaintext passwords.
+8. Do not claim evidence photos persist unless the chosen storage mechanism actually persists them.
+9. Preserve localStorage keys already in use (myGoal, myDomain, dailyTasks, taskSessions, learningNotes, stickyNotes) unless an explicit migration is written and tested.
+10. Implement loading, empty, validation, error, and success states when appropriate.
+11. Keep components responsive and accessible. Reuse existing CSS style conventions and avoid duplicate CSS blocks.
+12. Do not install new dependencies without explaining why and verifying they are needed.
+13. Do not build every planned feature in one huge change. Follow the roadmap phase by phase.
+14. If requirements conflict with current code, describe the conflict and propose the smallest safe fix rather than silently replacing behavior.
+
+IMPLEMENTATION PRIORITY:
+Phase 0 repository audit; Phase 1 stabilize current features; then Future Events; Task Reflection; Evidence Photos; Daily History; Analytics; Report Export; optional secure backend. Follow the complete blueprint for the detailed requirements and acceptance criteria.
+
+For the first response, only audit the repository and report: (a) actual folder tree, (b) which blueprint features work according to code, (c) which are incomplete/missing, (d) broken imports/errors, (e) the single safest next implementation step. Do not implement everything at once."
+
+======================================================================
+16. DEFINITION OF DONE / ACCEPTANCE CHECKLIST
+======================================================================
+
+BASE APPLICATION
+[ ] App starts using npm.cmd run dev on Windows PowerShell.
+[ ] Existing imports resolve.
+[ ] No unintended nested src/src structure.
+[ ] No fatal browser console or terminal errors.
+
+GOAL AND TASKS
+[ ] Goal/domain save and restore.
+[ ] Task add and planned time.
+[ ] Goal-related/independent task relation.
+[ ] Task deletion handles attached sessions safely.
+[ ] Completion counts and progress percentage are correct.
+
+WORK TIMER
+[ ] Start/pause/resume/finish each work.
+[ ] No more than one RUNNING session at a time under current rule.
+[ ] Session duration does not double-count.
+[ ] Finished time remains stable after refresh.
+[ ] Active-session reload behavior is predictable.
+
+NOTES
+[ ] Learning Notes add/search/delete and persist.
+[ ] Sticky Notes add/color/delete and persist.
+[ ] Malformed saved data does not crash the app.
+
+PLANNED FEATURES
+[ ] Future events CRUD and date ordering.
+[ ] Reflections connected to tasks.
+[ ] Evidence file validation, storage, preview, and removal.
+[ ] History grouped by correct date.
+[ ] Analytics formulas verified.
+[ ] Report output matches saved source records.
+
+AUTH AND PRIVACY
+[ ] Demo authentication is labeled clearly unless real backend auth is verified.
+[ ] No plaintext passwords in storage.
+[ ] If backend is added, user ownership enforced on every private route.
+
+FINAL DELIVERY
+[ ] Summarize changed files.
+[ ] Explain how to run the app.
+[ ] Explain tests performed and results.
+[ ] List remaining limitations truthfully.
+
+======================================================================
+17. IMPORTANT FINAL NOTE
+======================================================================
+
+This document is a project plan and target design, not proof that all listed features or backend services currently exist. Antigravity must inspect the repository to determine the real implementation state. The safest strategy is to preserve the working prototype, audit first, implement one feature at a time, and test after every change.
+
+END OF BLUEPRINT
